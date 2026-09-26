@@ -36,11 +36,10 @@ sh include/cache_sizes.sh > include/cache_sizes.csv
 - Plot: `python include/plot_bandwidth.py include/bandwidth.txt`
 
 Example of Output
-| Array | n | Reps | Average (us) | Median (us) | Min (us) | Max (us) | Bandwidth (MB/s) | ns/element | Result |
+| Array Type | n | Reps | Average (us) | Median (us) | Min (us) | Max (us) | Bandwidth (MB/s) | ns/element | Result |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | int A sorted | 1000000 | 12 | 215.385 | 212.827 | 212.629 | 232.161 | 17711.063 | 0.215 | 131070 |
 | int B sorted | 1000000 | 12 | 217.059 | 212.912 | 212.698 | 251.940 | 17574.472 | 0.217 | 131070 |
-
 
 ## Exclusive Prefix Sum
 
@@ -59,6 +58,7 @@ sh include/prefix_sum.sh
 
 Example of Output 
 | optimization | type | n | reps | avg_us | ns_per_element | checksum |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | O0 | int | 1000000 | 5 | 2437.093 | 2.437093 | 499999 |
 | O0 | double | 1000000 | 5 | 2539.302 | 2.539302 | 499999.0 |
 
@@ -80,6 +80,7 @@ sh include/matrix_multiply.sh
 
 Example of Output
 | M | K | N | order | reps | avg_us | gflops | correct |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 256 | 256 | 256 | ijk | 3 | 17808.338 | 1.884198 | yes | 
 | 256 | 256 | 256 | ikj | 3 | 2576.756 | 13.021967 | yes |
 | 256 | 256 | 256 | jik | 3 | 17971.383 | 1.867104 | yes | 
@@ -104,6 +105,7 @@ sh include/merge_sort.sh
 
 Example of Output
 | n | input | method | repetitions | avg_us | rate_mitems_per_s | sorted_and_preserved |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1000000 | random | merge_per_call | 1 | 115119.587 | 8.687 | yes |
 | 1000000 | random | merge_reuse | 1 | 86747.895 | 11.528 | yes |
 
@@ -127,6 +129,7 @@ Results are written to `bfs_graphs/`.
 
 Example of Output [From erdos_renyi]
 | source | levels | reached | fraction | inspected_edges | teps | 
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | source=597060 frontier_sizes=1;18;296;4705;72477;650221;320836;22 597060 | 8 | 1048576 | 1.000000 | 16777110 | 122463305 | 
 | source=817875 frontier_sizes=1;26;393;6380;96437;728157;217180;2 817875 | 8 | 1048576 | 1.000000 | 16777110 | 129909583 |
 
@@ -139,4 +142,5 @@ sh include/matrix_multiply.sh
 sh include/merge_sort.sh
 sh include/bfs.sh
 ```
+
 
