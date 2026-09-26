@@ -28,6 +28,7 @@ typedef struct {
     double avg_ns_per_elem;
 } bench_result_t;
 
+//This displays usage info for the program
 static void usage(const char *prog) {
     fprintf(stderr,
             "Usage: %s [--reps N] [--sizes 1000000,10000000,100000000] [--orders sorted,reverse,random]\n"
@@ -35,42 +36,49 @@ static void usage(const char *prog) {
             prog, prog);
 }
 
+//This fills an array with sorted integers
 static void fill_sorted_int(int *a, size_t n) {
     for (size_t i = 0; i < n; ++i) {
         a[i] = (int)i % 131071;
     }
 }
 
+//This fills an array with reverse-sorted integers
 static void fill_reverse_int(int *a, size_t n) {
     for (size_t i = 0; i < n; ++i) {
         a[i] = (int)(n - i) % 131071;
     }
 }
 
+//This fills an array with random integers
 static void fill_random_int(int *a, size_t n) {
     for (size_t i = 0; i < n; ++i) {
         a[i] = (int)((i * 1103515245u + 12345u) & 0x7fffffff);
     }
 }
 
+//This fills an array with sorted doubles
 static void fill_sorted_double(double *a, size_t n) {
     for (size_t i = 0; i < n; ++i) {
         a[i] = (double)((i % 131071) + 0.25);
     }
 }
 
+//This fills an array with reverse-sorted doubles
 static void fill_reverse_double(double *a, size_t n) {
     for (size_t i = 0; i < n; ++i) {
         a[i] = (double)((n - i) % 131071 + 0.25);
     }
 }
 
+//This fills an array with random doubles
 static void fill_random_double(double *a, size_t n) {
     for (size_t i = 0; i < n; ++i) {
         a[i] = (double)(((i * 1103515245u + 12345u) & 0x7fffffff) % 131071) + 0.25;
     }
 }
 
+//This calculates the median of an array of uint64_t values
 static uint64_t median_u64(uint64_t *values, size_t count) {
     if (count == 0) return 0;
     for (size_t i = 0; i < count; ++i) {
@@ -85,6 +93,7 @@ static uint64_t median_u64(uint64_t *values, size_t count) {
     return values[count / 2];
 }
 
+//This finds the maximum value in an array of integers for a
 static int max_int_a(const int *a, size_t n) {
     int m = a[0];
     for (size_t i = 1; i < n; ++i) {
@@ -95,6 +104,7 @@ static int max_int_a(const int *a, size_t n) {
     return m;
 }
 
+//This finds the maximum value in an array of integers for b
 static int max_int_b(const int *a, size_t n) {
     int m = a[0];
     for (size_t i = 1; i < n; ++i) {
@@ -103,6 +113,7 @@ static int max_int_b(const int *a, size_t n) {
     return m;
 }
 
+//This finds the maximum value in an array of doubles for a
 static double max_double_a(const double *a, size_t n) {
     double m = a[0];
     for (size_t i = 1; i < n; ++i) {
@@ -113,6 +124,7 @@ static double max_double_a(const double *a, size_t n) {
     return m;
 }
 
+//This finds the maximum value in an array of doubles for b
 static double max_double_b(const double *a, size_t n) {
     double m = a[0];
     for (size_t i = 1; i < n; ++i) {
@@ -121,6 +133,7 @@ static double max_double_b(const double *a, size_t n) {
     return m;
 }
 
+//In the static, this parses size specifications from a comma-separated string
 static int parse_sizes(const char *text, size_t **sizes_out, size_t *count_out) {
     if (text == NULL || *text == '\0') {
         return 0;
@@ -170,6 +183,7 @@ static int parse_sizes(const char *text, size_t **sizes_out, size_t *count_out) 
     return 0;
 }
 
+//In this static, it parses input order specifications from a comma-separated string
 static int parse_orders(const char *text, input_order_t **orders_out, size_t *count_out) {
     if (text == NULL || *text == '\0') {
         return 0;
@@ -222,6 +236,7 @@ static int parse_orders(const char *text, input_order_t **orders_out, size_t *co
     return 0;
 }
 
+//Returns the name of an input order
 static const char *order_name(input_order_t order) {
     switch (order) {
         case ORDER_SORTED: return "sorted";
@@ -231,14 +246,18 @@ static const char *order_name(input_order_t order) {
     }
 }
 
+//Returns the name of a data type
 static const char *type_name(int type) {
     return type == 0 ? "int" : "double";
 }
 
+//Returns the name of a variant
 static const char *variant_name(int variant) {
     return variant == 0 ? "A" : "B";
 }
 
+//This benchmarks the integer array maximum functions
+//It will also print the benchmark results
 static void benchmark_int(size_t n, input_order_t order, int variant, int reps, bench_result_t *result) {
     int *a = malloc(n * sizeof(*a));
     if (a == NULL) {
@@ -311,6 +330,8 @@ static void benchmark_int(size_t n, input_order_t order, int variant, int reps, 
     free(a);
 }
 
+//This benchmarks the double array maximum functions
+//It also prints the benchmark results
 static void benchmark_double(size_t n, input_order_t order, int variant, int reps,
                              int csv, bench_result_t *result) {
     double *a = malloc(n * sizeof(*a));

@@ -1,3 +1,0 @@
-gcc -Wall -Wextra -std=c11 -I/users/mkatopod/assign1/include -O3 src/bfs.c -o bfs -lrt
-erdos_renyi: teps_min=115365255 teps_median=118398219 teps_max=118574988
-bfs_graphs/rmat.mtx: No such file or directory

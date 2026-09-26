@@ -4,12 +4,12 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-
+#Reads cache sizes
 def read_cache_sizes(path):
     with open(path, newline="") as handle:
         return {row["level"]: float(row["bytes"]) for row in csv.DictReader(handle)}
 
-
+#Reads bandwidth data
 def read_bandwidth(path):
     with open(path, newline="") as handle:
         rows = list(csv.DictReader(handle))
@@ -33,7 +33,7 @@ def read_bandwidth(path):
         "benchmark CSV must contain bandwidth_bytes_per_s or bandwidth column"
     )
 
-
+#In main, it plots memory bandwidth data
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("csv_file")
@@ -63,6 +63,6 @@ def main():
     plt.tight_layout()
     plt.savefig(args.output, dpi=160)
 
-
+#If this script is run directly, it should execute the main function
 if __name__ == "__main__":
     main()

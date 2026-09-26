@@ -12,6 +12,7 @@ if [ -f "$submit_dir/MakeFile" ] || [ -f "$submit_dir/Makefile" ]; then
 else
     project_dir=$(CDPATH= cd -- "$submit_dir/.." && pwd)
 fi
+
 cd "$project_dir"
 
 if [ -f "$project_dir/MakeFile" ]; then
@@ -24,6 +25,7 @@ vertices=${BFS_VERTICES:-1048576}
 average_degree=${BFS_DEGREE:-16}
 edges=$((vertices * average_degree / 2))
 output_dir=${BFS_OUTPUT_DIR:-bfs_graphs}
+
 mkdir -p "$output_dir"
 
 make -f "$makefile" bfs OPT_LEVEL="${OPT_LEVEL:-O3}"

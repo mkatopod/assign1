@@ -9,6 +9,7 @@
 
 #define DEFAULT_REPS 5
 
+//This function computes the exclusive prefix sum of an array of integers
 static void exclusive_prefix_sum_int(int *a, size_t n) {
     int running = 0;
     for (size_t i = 0; i < n; ++i) {
@@ -18,6 +19,7 @@ static void exclusive_prefix_sum_int(int *a, size_t n) {
     }
 }
 
+//This function computes the exclusive prefix sum of an array of doubles
 static void exclusive_prefix_sum_double(double *a, size_t n) {
     double running = 0.0;
     for (size_t i = 0; i < n; ++i) {
@@ -27,22 +29,26 @@ static void exclusive_prefix_sum_double(double *a, size_t n) {
     }
 }
 
+//This function fills an integer array with values
 static void fill_int(int *a, size_t n) {
     for (size_t i = 0; i < n; ++i) {
         a[i] = (int)(i & 1U);
     }
 }
 
+//This function fills a double array with values
 static void fill_double(double *a, size_t n) {
     for (size_t i = 0; i < n; ++i) {
         a[i] = (double)(i & 1U);
     }
 }
 
+//This prints the usage message
 static void usage(const char *program) {
     fprintf(stderr, "Usage: %s [--sizes N[,N...]] [--reps N]\n", program);
 }
 
+//This function parses a list of sizes from a string
 static int parse_sizes(const char *text, size_t **sizes_out, size_t *count_out) {
     char *copy = strdup(text);
     if (copy == NULL) {
@@ -82,6 +88,7 @@ static int parse_sizes(const char *text, size_t **sizes_out, size_t *count_out) 
     return 0;
 }
 
+//This function benchmarks the exclusive prefix sum of an integer array
 static uint64_t benchmark_int(size_t n, int reps, uint64_t *checksum) {
     int *a = malloc(n * sizeof(*a));
     if (a == NULL) {
@@ -101,6 +108,7 @@ static uint64_t benchmark_int(size_t n, int reps, uint64_t *checksum) {
     return total_ns / (uint64_t)reps;
 }
 
+//This function benchmarks the exclusive prefix sum of a double array
 static uint64_t benchmark_double(size_t n, int reps, double *checksum) {
     double *a = malloc(n * sizeof(*a));
     if (a == NULL) {
@@ -120,6 +128,8 @@ static uint64_t benchmark_double(size_t n, int reps, double *checksum) {
     return total_ns / (uint64_t)reps;
 }
 
+//This is the main entry point for the program
+//It will print the results
 int main(int argc, char **argv) {
     static const size_t default_sizes[] = {
         1000000ULL, 10000000ULL, 100000000ULL

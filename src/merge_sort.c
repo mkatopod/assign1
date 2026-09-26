@@ -7,6 +7,7 @@
 
 #include "timing.h"
 
+//We set up the two typedefs for input kinds and sorting methods
 typedef enum {
     INPUT_RANDOM,
     INPUT_SORTED,
@@ -20,6 +21,7 @@ typedef enum {
     METHOD_QSORT
 } sort_method;
 
+//This function merges two sorted subarrays. It allocates temporary space
 static void merge_with_allocation(int *values, size_t left, size_t middle, size_t right) {
     size_t length = right - left;
     int *temporary = malloc(length * sizeof(*temporary));
@@ -41,6 +43,7 @@ static void merge_with_allocation(int *values, size_t left, size_t middle, size_
     free(temporary);
 }
 
+//This function implements merge sort with per-call allocation
 static void merge_sort_per_call_recursive(int *values, size_t left, size_t right) {
     if (right - left < 2) {
         return;
@@ -51,10 +54,13 @@ static void merge_sort_per_call_recursive(int *values, size_t left, size_t right
     merge_with_allocation(values, left, middle, right);
 }
 
+//This function implements merge sort with per-call allocation
 static void merge_sort_per_call(int *values, size_t length) {
     merge_sort_per_call_recursive(values, 0, length);
 }
 
+//This function merges two sorted subarrays 
+//It also reuses temporary space
 static void merge_with_reused_array(int *values, int *temporary,
                                     size_t left, size_t middle, size_t right) {
     size_t first = left;
@@ -69,6 +75,8 @@ static void merge_with_reused_array(int *values, int *temporary,
     memcpy(values + left, temporary + left, (right - left) * sizeof(*values));
 }
 
+//This function implements merge sort
+//It also uses reused temporary space
 static void merge_sort_reuse_recursive(int *values, int *temporary,
                                        size_t left, size_t right) {
     if (right - left < 2) {
@@ -80,6 +88,8 @@ static void merge_sort_reuse_recursive(int *values, int *temporary,
     merge_with_reused_array(values, temporary, left, middle, right);
 }
 
+//This function implements merge sort
+//It also uses reused temporary space
 static void merge_sort_reuse(int *values, size_t length) {
     int *temporary = malloc(length * sizeof(*temporary));
     if (temporary == NULL) {
@@ -90,12 +100,14 @@ static void merge_sort_reuse(int *values, size_t length) {
     free(temporary);
 }
 
+//This function compares two integers for sorting
 static int compare_ints(const void *left, const void *right) {
     int first = *(const int *)left;
     int second = *(const int *)right;
     return (first > second) - (first < second);
 }
 
+//This function fills the input array with values depending on the specified kind
 static void fill_input(int *values, size_t length, input_kind kind) {
     uint32_t state = 123456789U;
     for (size_t index = 0; index < length; ++index) {
@@ -120,6 +132,7 @@ static void fill_input(int *values, size_t length, input_kind kind) {
     }
 }
 
+//This will validate the output array
 static int valid_output(const int *values, const int *expected, size_t length) {
     for (size_t index = 1; index < length; ++index) {
         if (values[index - 1] > values[index]) {
@@ -129,6 +142,7 @@ static int valid_output(const int *values, const int *expected, size_t length) {
     return memcmp(values, expected, length * sizeof(*values)) == 0;
 }
 
+//This sorts the input array using the specified method
 static void sort_values(int *values, size_t length, sort_method method) {
     if (method == METHOD_PER_CALL) {
         merge_sort_per_call(values, length);
@@ -139,16 +153,19 @@ static void sort_values(int *values, size_t length, sort_method method) {
     }
 }
 
+//Returns the name of an input kind
 static const char *input_name(input_kind kind) {
     static const char *names[] = {"random", "sorted", "reverse", "equal"};
     return names[kind];
 }
 
+//Returns the name of a sorting method
 static const char *method_name(sort_method method) {
     static const char *names[] = {"merge_per_call", "merge_reuse", "qsort"};
     return names[method];
 }
 
+//This function parses a positive integer from a string
 static int parse_positive(const char *text, size_t *value) {
     char *end = NULL;
     unsigned long long parsed = strtoull(text, &end, 10);
@@ -159,6 +176,8 @@ static int parse_positive(const char *text, size_t *value) {
     return 1;
 }
 
+//This is the main entry point for the program
+//It will also print the results
 int main(int argc, char **argv) {
     size_t length = 1000000;
     size_t repetitions = 1;

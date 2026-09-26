@@ -8,17 +8,21 @@
 
 #include "timing.h"
 
+//We set typedef for the matrix multiplication functions
 typedef void (*multiply_function)(const int *, const int *, int *, size_t, size_t, size_t);
 
+//we set typedef for multiply order
 typedef struct {
     const char *name;
     multiply_function function;
 } multiply_order;
 
+//This will clear a matrix
 static void clear_matrix(int *matrix, size_t elements) {
     memset(matrix, 0, elements * sizeof(*matrix));
 }
 
+//This function multiplies two matrices in the order IJK
 static void multiply_ijk(const int *a, const int *b, int *c, size_t m, size_t k, size_t n) {
     for (size_t i = 0; i < m; ++i) {
         for (size_t j = 0; j < n; ++j) {
@@ -29,6 +33,7 @@ static void multiply_ijk(const int *a, const int *b, int *c, size_t m, size_t k,
     }
 }
 
+//This function multiplies two matrices in the order IKJ
 static void multiply_ikj(const int *a, const int *b, int *c, size_t m, size_t k, size_t n) {
     for (size_t i = 0; i < m; ++i) {
         for (size_t inner = 0; inner < k; ++inner) {
@@ -39,6 +44,7 @@ static void multiply_ikj(const int *a, const int *b, int *c, size_t m, size_t k,
     }
 }
 
+//This function multiplies two matrices in the order JIK
 static void multiply_jik(const int *a, const int *b, int *c, size_t m, size_t k, size_t n) {
     for (size_t j = 0; j < n; ++j) {
         for (size_t i = 0; i < m; ++i) {
@@ -49,6 +55,7 @@ static void multiply_jik(const int *a, const int *b, int *c, size_t m, size_t k,
     }
 }
 
+//This function multiplies two matrices in the order JKI
 static void multiply_jki(const int *a, const int *b, int *c, size_t m, size_t k, size_t n) {
     for (size_t j = 0; j < n; ++j) {
         for (size_t inner = 0; inner < k; ++inner) {
@@ -59,6 +66,7 @@ static void multiply_jki(const int *a, const int *b, int *c, size_t m, size_t k,
     }
 }
 
+//This function multiplies two matrices in the order KIJ
 static void multiply_kij(const int *a, const int *b, int *c, size_t m, size_t k, size_t n) {
     for (size_t inner = 0; inner < k; ++inner) {
         for (size_t i = 0; i < m; ++i) {
@@ -69,6 +77,7 @@ static void multiply_kij(const int *a, const int *b, int *c, size_t m, size_t k,
     }
 }
 
+//This function multiplies two matrices in the order KJI
 static void multiply_kji(const int *a, const int *b, int *c, size_t m, size_t k, size_t n) {
     for (size_t inner = 0; inner < k; ++inner) {
         for (size_t j = 0; j < n; ++j) {
@@ -79,6 +88,7 @@ static void multiply_kji(const int *a, const int *b, int *c, size_t m, size_t k,
     }
 }
 
+//The static function compares two matrices for equality
 static int matrices_equal(const int *left, const int *right, size_t elements) {
     for (size_t index = 0; index < elements; ++index) {
         if (left[index] != right[index]) {
@@ -88,12 +98,14 @@ static int matrices_equal(const int *left, const int *right, size_t elements) {
     return 1;
 }
 
+//This static function fills a matrix with values
 static void fill_matrix(int *matrix, size_t elements, unsigned int seed) {
     for (size_t index = 0; index < elements; ++index) {
         matrix[index] = (int)((index * 17U + seed * 13U) % 9U) + 1;
     }
 }
 
+//We then do parse positive integers
 static int parse_positive(const char *text, size_t *value) {
     char *end = NULL;
     unsigned long long parsed = strtoull(text, &end, 10);
@@ -104,6 +116,8 @@ static int parse_positive(const char *text, size_t *value) {
     return 1;
 }
 
+//In the main, it reads matrix dimensions from the command line and perform matrix multiplication
+//In the end, it prints the results
 int main(int argc, char **argv) {
     size_t m = 256;
     size_t k = 256;

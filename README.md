@@ -5,7 +5,7 @@ All arrays use contiguous storage. Timing uses a monotonic clock.
 
 ## Common Environment
 
-Record these values from the cluster used for the experiments:
+These values are from the cluster used for the experiments:
 
 | Item          |  Value  |
 | ---           | ---     |
@@ -35,9 +35,27 @@ sh include/cache_sizes.sh > include/cache_sizes.csv
 - Statistic: average bandwidth in bytes per second
 - Plot: `python include/plot_bandwidth.py include/bandwidth.txt`
 
-- Example of some Output
-int A sorted n=1000000 reps=12 avg=215.385 us median=212.827 us min=212.629 us max=232.161 us rate=17711.063 MB/s ns/elem=0.215 result=131070
-int B sorted n=1000000 reps=12 avg=217.059 us median=212.912 us min=212.698 us max=251.940 us rate=17574.472 MB/s ns/elem=0.217 result=131070
+Example of Output
+int A sorted 
+- n=1000000 
+- reps=12 
+- avg=215.385 
+- us median=212.827 
+- us min=212.629 us 
+- max=232.161 
+- us rate=17711.063 MB/s 
+- ns/elem=0.215 
+- result=131070
+int B sorted 
+- n=1000000 
+- reps=12 
+- avg=217.059 
+- us median=212.912 
+- us min=212.698 
+- us max=251.940 
+- us rate=17574.472 MB/s 
+- ns/elem=0.217 
+- result=131070
 
 ## Exclusive Prefix Sum
 
@@ -48,15 +66,16 @@ The program computes an exclusive prefix sum for integer and double arrays.
 ```sh
 sh include/prefix_sum.sh
 ```
+
 - Sizes: `10^6`, `10^7`, and `10^8`
 - Repetitions: 5 by default; set `REPS=12` for 12 repetitions
 - Optimization levels: `O0`, `O2`, `O3`
 - Statistics: average microseconds, ns/element, and checksum
 
-- Example of Some Output:
-optimization, type, n, reps, avg_us, ns_per_element, checksum
-O0,int, 1000000, 5, 2437.093, 2.437093, 499999
-O0,double, 1000000, 5, 2539.302, 2.539302, 499999.0
+Example of Output 
+| optimization | type | n | reps | avg_us | ns_per_element | checksum |
+| O0 | int | 1000000 | 5 | 2437.093 | 2.437093 | 499999 |
+| O0 | double | 1000000 | 5 | 2539.302 | 2.539302 | 499999.0 |
 
 
 ## Dense Matrix Multiplication
@@ -64,22 +83,21 @@ O0,double, 1000000, 5, 2539.302, 2.539302, 499999.0
 **Files:** `src/matrix_multiply.c`, `include/matrix_multiply.sh`
 
 The program computes $C = AB$ using flat row-major arrays and implements all
-six loop orders: `ijk`, `ikj`, `jik`, `jki`, `kij`, and `kji`.
+six loops: `ijk`, `ikj`, `jik`, `jki`, `kij`, and `kji`.
 
 ```sh
 sh include/matrix_multiply.sh
 ```
 
-- Shapes: `256^3`, `512^3`, `1024^3`, and `256 x 512 x 1024`
 - Repetitions: 3 by default
 - Statistic: GFLOP/s
 - Correctness: every order must report `yes`
 
-- Example of Some Output: 
-M, K, N, order, reps, avg_us, gflops, correct
-256, 256, 256, ijk, 3, 17808.338, 1.884198, yes
-256, 256, 256, ikj, 3, 2576.756, 13.021967, yes
-256, 256, 256, jik, 3, 17971.383, 1.867104, yes
+Example of Output
+| M | K | N | order | reps | avg_us | gflops | correct |
+| 256 | 256 | 256 | ijk | 3 | 17808.338 | 1.884198 | yes | 
+| 256 | 256 | 256 | ikj | 3 | 2576.756 | 13.021967 | yes |
+| 256 | 256 | 256 | jik | 3 | 17971.383 | 1.867104 | yes | 
 
 
 ## Merge Sort
@@ -87,7 +105,7 @@ M, K, N, order, reps, avg_us, gflops, correct
 **Files:** `src/merge_sort.c`, `include/merge_sort.sh`
 
 The benchmark compares recursive merge sort with a temporary allocation at
-each merge, merge sort with one reused temporary array, and C `qsort`.
+each merge, merge sort with one reused temporary array, and qsort.
 
 ```sh
 sh include/merge_sort.sh
@@ -97,12 +115,12 @@ sh include/merge_sort.sh
 - Inputs: random, sorted, reverse-sorted, and all equal
 - Repetitions: 1 by default
 - Statistic: millions of items sorted per second
-- Correctness: output is sorted and contains the original elements
+- Correctness: output is sorted and contains original elements
 
-- Example of Some Output: 
-n, input, method, repetitions, avg_us, rate_mitems_per_s, sorted_and_preserved
-1000000, random, merge_per_call, 1, 115119.587, 8.687, yes
-1000000, random, merge_reuse, 1, 86747.895, 11.528, yes
+Example of Output
+| n | input | method | repetitions | avg_us | rate_mitems_per_s | sorted_and_preserved |
+| 1000000 | random | merge_per_call | 1 | 115119.587 | 8.687 | yes |
+| 1000000 | random | merge_reuse | 1 | 86747.895 | 11.528 | yes |
 
 
 ## Breadth-First Search
@@ -118,20 +136,17 @@ sh include/bfs.sh
 ```
 
 It creates Erdos-Renyi and RMAT graphs with $2^{20}$ vertices and
-average degree 16. Runs BFS from 16 randomly selected vertices with
-nonzero degree.
+average degree 16. Runs BFS from 16 randomly selected vertices.
 
 Results are written to `bfs_graphs/`. 
-- Example of Some Output [From erdos_renyi]:
-graph=bfs_graphs/erdos_renyi.mtx vertices=1048576 undirected_edges=8388555
-source, levels, reached, fraction, inspected_edges, teps
-source=597060 frontier_sizes=1;18;296;4705;72477;650221;320836;22
-597060, 8, 1048576, 1.000000, 16777110, 122463305
-source=817875 frontier_sizes=1;26;393;6380;96437;728157;217180;2
-817875, 8, 1048576, 1.000000, 16777110, 129909583
+
+Example of Output [From erdos_renyi]
+| source | levels | reached | fraction | inspected_edges | teps | 
+| source=597060 frontier_sizes=1;18;296;4705;72477;650221;320836;22 597060 | 8 | 1048576 | 1.000000 | 16777110 | 122463305 | 
+| source=817875 frontier_sizes=1;26;393;6380;96437;728157;217180;2 817875 | 8 | 1048576 | 1.000000 | 16777110 | 129909583 |
 
 
-## Summary of Scripts
+## Scripts Used
 ```sh
 sh include/cache_sizes.sh
 sh include/prefix_sum.sh
@@ -140,4 +155,3 @@ sh include/merge_sort.sh
 sh include/bfs.sh
 ```
 
-For Slurm submission, use `sbatch` and not `sh`.

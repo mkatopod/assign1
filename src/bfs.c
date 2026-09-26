@@ -9,6 +9,7 @@
 
 #include "timing.h"
 
+//This typedef defines the graph data structure
 typedef struct {
     int n;
     long m;
@@ -16,6 +17,7 @@ typedef struct {
     int *adj;
 } graph_t;
 
+//This typedef defines the result structure for the BFS computation
 typedef struct {
     long inspected_edges;
     int levels;
@@ -23,16 +25,19 @@ typedef struct {
     uint64_t elapsed_ns;
 } bfs_result;
 
+//This typedef defines an edge
 typedef struct {
     int from;
     int to;
 } edge_t;
 
+//We start by defining a function; should handle failures
 static void fail(const char *message) {
     fprintf(stderr, "%s\n", message);
     exit(EXIT_FAILURE);
 }
 
+//This function reads the next data line from a file, skipping comment lines
 static int next_data_line(FILE *file, char *line, size_t capacity) {
     while (fgets(line, (int)capacity, file) != NULL) {
         if (line[0] != '%' && line[0] != '\n' && line[0] != '\0') {
@@ -42,6 +47,7 @@ static int next_data_line(FILE *file, char *line, size_t capacity) {
     return 0;
 }
 
+//This function compares two edges; used for sorting
 static int edge_compare(const void *left, const void *right) {
     const edge_t *first = left;
     const edge_t *second = right;
@@ -51,6 +57,8 @@ static int edge_compare(const void *left, const void *right) {
     return first->to - second->to;
 }
 
+//This function reads a matrix market file
+//It also constructs a graph
 static graph_t read_matrix_market(const char *path) {
     FILE *file = fopen(path, "r");
     if (file == NULL) {
@@ -151,6 +159,8 @@ static void free_graph(graph_t *graph) {
     graph->adj = NULL;
 }
 
+//This function performs a breadth-first search on the graph
+//It also prints the search results
 static bfs_result bfs(const graph_t *graph, int source, int *distance, int *frontier, int *next_frontier) {
     for (int vertex = 0; vertex < graph->n; ++vertex) {
         distance[vertex] = -1;
@@ -198,6 +208,7 @@ static bfs_result bfs(const graph_t *graph, int source, int *distance, int *fron
     return result;
 }
 
+//This chooses a source vertex for the BFS
 static int choose_source(const graph_t *graph, uint32_t *state) {
     for (;;) {
         *state = *state * 1664525U + 1013904223U;
@@ -208,12 +219,15 @@ static int choose_source(const graph_t *graph, uint32_t *state) {
     }
 }
 
+//This compares two uint64_t values; used for sorting
 static int compare_u64(const void *left, const void *right) {
     uint64_t first = *(const uint64_t *)left;
     uint64_t second = *(const uint64_t *)right;
     return first > second ? 1 : (first < second ? -1 : 0);
 }
 
+//The main function will read a graph from a file and perform BFS on it
+//It also prints the results
 int main(int argc, char **argv) {
     if (argc != 2) {
         fprintf(stderr, "Usage: %s graph.mtx\n", argv[0]);

@@ -12,6 +12,7 @@ if [ -f "$submit_dir/MakeFile" ] || [ -f "$submit_dir/Makefile" ]; then
 else
     project_dir=$(CDPATH= cd -- "$submit_dir/.." && pwd)
 fi
+
 cd "$project_dir"
 
 if [ -f "$project_dir/MakeFile" ]; then
