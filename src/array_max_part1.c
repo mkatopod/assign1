@@ -347,7 +347,7 @@ static void benchmark_double(size_t n, input_order_t order, int variant, int rep
         default: break;
     }
 
-    uint64_t *times = calloc((size_t)reps * sizeof(*times));
+    uint64_t *times = calloc((size_t)reps, sizeof(*times));
     if (times == NULL) {
         fprintf(stderr, "malloc failed for timing samples\n");
         free(a);

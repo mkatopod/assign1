@@ -1,0 +1,9 @@
+rm -f array_max_part1 prefix_sum matrix_multiply merge_sort bfs
+gcc -Wall -Wextra -std=c11 -I/users/mkatopod/assign1/include -O0 src/prefix_sum.c -o prefix_sum -lrt
+Wrote prefix_sum_O0.csv
+rm -f array_max_part1 prefix_sum matrix_multiply merge_sort bfs
+gcc -Wall -Wextra -std=c11 -I/users/mkatopod/assign1/include -O2 src/prefix_sum.c -o prefix_sum -lrt
+Wrote prefix_sum_O2.csv
+rm -f array_max_part1 prefix_sum matrix_multiply merge_sort bfs
+gcc -Wall -Wextra -std=c11 -I/users/mkatopod/assign1/include -O3 src/prefix_sum.c -o prefix_sum -lrt
+Wrote prefix_sum_O3.csv

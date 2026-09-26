@@ -1,0 +1,31 @@
+level,bytes
+L1,1126.4
+L2,36864
+L3,51904512
+In file included from src/array_max_part1.c:6:
+include/timing.h: In function ‘monotonic_ns’:
+include/timing.h:8:5: warning: implicit declaration of function ‘clock_gettime’ [-Wimplicit-function-declaration]
+    8 |     clock_gettime(CLOCK_MONOTONIC, &timestamp);
+      |     ^~~~~~~~~~~~~
+include/timing.h:8:19: error: ‘CLOCK_MONOTONIC’ undeclared (first use in this function)
+    8 |     clock_gettime(CLOCK_MONOTONIC, &timestamp);
+      |                   ^~~~~~~~~~~~~~~
+include/timing.h:8:19: note: each undeclared identifier is reported only once for each function it appears in
+src/array_max_part1.c: In function ‘parse_sizes’:
+src/array_max_part1.c:142:18: warning: implicit declaration of function ‘strdup’; did you mean ‘strcmp’? [-Wimplicit-function-declaration]
+  142 |     char *copy = strdup(text);
+      |                  ^~~~~~
+      |                  strcmp
+src/array_max_part1.c:142:18: warning: initialization of ‘char *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+src/array_max_part1.c: In function ‘parse_orders’:
+src/array_max_part1.c:192:18: warning: initialization of ‘char *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+  192 |     char *copy = strdup(text);
+      |                  ^~~~~~
+src/array_max_part1.c: In function ‘benchmark_double’:
+src/array_max_part1.c:350:23: error: too few arguments to function ‘calloc’
+  350 |     uint64_t *times = calloc((size_t)reps * sizeof(*times));
+      |                       ^~~~~~
+In file included from src/array_max_part1.c:3:
+/usr/include/stdlib.h:542:14: note: declared here
+  542 | extern void *calloc (size_t __nmemb, size_t __size)
+      |              ^~~~~~

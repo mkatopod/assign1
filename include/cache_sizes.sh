@@ -1,5 +1,13 @@
-#!/bin/sh
+#!/bin/bash
+#SBATCH --time=00:30:00
+#SBATCH --partition=Centaurus
 set -eu
+
+repo_dir=${SLURM_SUBMIT_DIR:-"$PWD"}
+if [[ ${repo_dir##*/} == include ]]; then
+  repo_dir=$(dirname -- "$repo_dir")
+fi
+cd "$repo_dir"
 
 printf 'level,bytes\n'
 lscpu | awk '
@@ -8,7 +16,7 @@ lscpu | awk '
   /L3 cache:/  { gsub(/M/, "", $3); print "L3," $3 * 1024 * 1024 }
 '
 
-gcc -O3 array_max_part1.c -o array_max_part1
+gcc -O3 -Wall -Wextra -std=c11 -Iinclude src/array_max_part1.c -o array_max_part1 -lrt
 echo "array_bytes,bandwidth_bytes_per_s" > bandwidth.txt
 
 sizes=(2048 4096 8192 16384 32768 65536 131072 262144 \
@@ -21,7 +29,3 @@ for n in "${sizes[@]}"; do
         echo "$n,$bw" >> bandwidth.txt
     fi
 done
-
-
-
-

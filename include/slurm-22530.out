@@ -1,0 +1,2 @@
+gcc -Wall -Wextra -std=c11 -I/users/mkatopod/assign1/include -O3 src/merge_sort.c -o merge_sort -lrt
+Wrote merge_sort.csv
