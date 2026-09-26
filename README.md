@@ -1,11 +1,11 @@
 ## Introduction
 
 This assignment implements and measures five kernels in C on a Linux cluster. 
-All arrays use contiguous storage. Timing uses a monotonic clock.
+All arrays use contiguous storage and for timing, it uses a monotonic clock.
 
 ## Common Environment
 
-These values are from the cluster used for the experiments:
+These values are from the cluster that were used for the experiments:
 
 | Item          |  Value  |
 | ---           | ---     |
@@ -23,8 +23,8 @@ make -f MakeFile
 
 **Files:** `src/array_max_part1.c`, `include/cache_sizes.sh`
 
-Benchmark scans integer and double arrays and reports memory bandwidth as
-the array size grows from 2 KiB to 256 MiB.
+The benchmark scans integer and double arrays. It reports memory bandwidth as
+the array size grows, starting from 2 KiB to 256 MiB.
 
 ```sh
 sh include/cache_sizes.sh > include/cache_sizes.csv
@@ -71,7 +71,7 @@ sh include/matrix_multiply.sh
 **Files:** `src/merge_sort.c`, `include/merge_sort.sh`
 
 The benchmark compares recursive merge sort with a temporary allocation at
-each merge, merge sort with one reused temporary array, and qsort.
+each merge. It also does merge sort with a reused temporary array and qsort.
 
 ```sh
 sh include/merge_sort.sh
@@ -95,8 +95,7 @@ inspected edges, and TEPS.
 sh include/bfs.sh
 ```
 
-It creates Erdos-Renyi and RMAT graphs with $2^{20}$ vertices and
-average degree 16. Runs BFS from 16 randomly selected vertices.
+It also creates Erdos-Renyi and RMAT graphs. Runs BFS from 16 randomly selected vertices.
 
 
 ## Scripts
