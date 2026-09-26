@@ -36,26 +36,11 @@ sh include/cache_sizes.sh > include/cache_sizes.csv
 - Plot: `python include/plot_bandwidth.py include/bandwidth.txt`
 
 Example of Output
-int A sorted 
-- n=1000000 
-- reps=12 
-- avg=215.385 
-- us median=212.827 
-- us min=212.629 us 
-- max=232.161 
-- us rate=17711.063 MB/s 
-- ns/elem=0.215 
-- result=131070
-int B sorted 
-- n=1000000 
-- reps=12 
-- avg=217.059 
-- us median=212.912 
-- us min=212.698 
-- us max=251.940 
-- us rate=17574.472 MB/s 
-- ns/elem=0.217 
-- result=131070
+| Array | n | Reps | Average (us) | Median (us) | Min (us) | Max (us) | Bandwidth (MB/s) | ns/element | Result |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| int A sorted | 1000000 | 12 | 215.385 | 212.827 | 212.629 | 232.161 | 17711.063 | 0.215 | 131070 |
+| int B sorted | 1000000 | 12 | 217.059 | 212.912 | 212.698 | 251.940 | 17574.472 | 0.217 | 131070 |
+
 
 ## Exclusive Prefix Sum
 
